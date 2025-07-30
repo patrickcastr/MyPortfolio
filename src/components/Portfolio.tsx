@@ -1,13 +1,12 @@
-
 import { ExternalLink, Github } from 'lucide-react'
 
 const Portfolio = () => {
   const projects = [
     {
-      title: "E-commerce Platform",
-      description: "Modern e-commerce solution built with React and Node.js",
+      title: "Another E-commerce platform",
+      description: "Modern e-commerce solution built with React and Django",
       image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=300&fit=crop",
-      tech: ["React", "Node.js", "MongoDB"],
+      tech: ["React", "Django", "MongoDB"],
       demo: "#",
       github: "#"
     },
@@ -20,8 +19,16 @@ const Portfolio = () => {
       github: "#"
     },
     {
+      title: "Issues Register",
+      description: "System for tracking and managing issues and bugs",
+      image: "https://images.unsplash.com/photo-1581472723648-909f4851d4ae?w=400&h=300&fit=crop",
+      tech: ["React", "ASP.NET Core", "SQL"],
+      demo: "/register",
+      github: "#"
+    },
+    {
       title: "Portfolio Website",
-      description: "Responsive portfolio with modern design principles",
+      description: "You are looking at it right now! A showcase of my work and skills",
       image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=400&h=300&fit=crop",
       tech: ["React", "Tailwind CSS", "Vite"],
       demo: "#",
@@ -36,7 +43,7 @@ const Portfolio = () => {
           <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent mb-6">
             My Portfolio
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
             A collection of projects that showcase my skills and passion for development.
           </p>
         </div>

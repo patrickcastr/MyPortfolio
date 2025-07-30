@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react'
+import React, { useState, useRef } from 'react'
+import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle } from 'lucide-react'
+import emailjs from '@emailjs/browser'
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -7,13 +8,62 @@ const Contact = () => {
     email: '',
     message: ''
   })
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [status, setStatus] = useState({ success: false, error: false, message: '' })
+  
+  const formRef = useRef(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Contact form data:', formData)
-    setIsSubmitted(true)
-    setTimeout(() => setIsSubmitted(false), 3000)
+    setIsSubmitting(true)
+    
+    try {
+      // Send email to the person who filled the form (confirmation)
+      const result = await emailjs.sendForm(
+        'service_k2h30qp', 
+        'template_rc1xvpk',
+        formRef.current!,
+        '0r6u1TEJ2UhCcEO2h'
+      )
+      
+      // Send notification copy to yourself
+      await emailjs.sendForm(
+        'service_k2h30qp', 
+        'template_vuafvm1',
+        formRef.current!,
+        '0r6u1TEJ2UhCcEO2h'
+      )
+      
+      console.log('Email sent successfully:', result.text)
+      
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        message: ''
+      })
+      
+      // Show success message
+      setStatus({
+        success: true,
+        error: false,
+        message: 'Message sent successfully! I\'ll get back to you soon.'
+      })
+      
+      // Clear success message after 5 seconds
+      setTimeout(() => {
+        setStatus({ success: false, error: false, message: '' })
+      }, 5000)
+    } catch (error: any) {
+      console.error('Failed to send email:', error)
+      setStatus({
+        success: false, 
+        error: true,
+        message: 'Failed to send message. Please try again or email me directly.'
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -58,7 +108,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900 mb-1">Email</h3>
-                      <p className="text-gray-600">patrick.castrence@example.com</p>
+                      <p className="text-gray-600">pkcastrence@gmail.com</p>
                       <p className="text-sm text-gray-500 mt-1">Preferred for project inquiries</p>
                     </div>
                   </div>
@@ -73,8 +123,8 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900 mb-1">Phone</h3>
-                      <p className="text-gray-600">+1 (555) 123-4567</p>
-                      <p className="text-sm text-gray-500 mt-1">Available Mon-Fri, 9AM-6PM PST</p>
+                      <p className="text-gray-600">+64 22 345 4932</p>
+                      <p className="text-sm text-gray-500 mt-1">Available Mon-Fri, 9AM-6PM NZT</p>
                     </div>
                   </div>
                 </div>
@@ -88,7 +138,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900 mb-1">Location</h3>
-                      <p className="text-gray-600">San Francisco, CA</p>
+                      <p className="text-gray-600">New Plymouth, Taranaki</p>
                       <p className="text-sm text-gray-500 mt-1">Open to remote collaboration</p>
                     </div>
                   </div>
@@ -102,19 +152,26 @@ const Contact = () => {
               </div>
             </div>
 
-            {/* Contact Form */}
+            {/* Contact Form - Updated with EmailJS */}
             <div className="relative">
               <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-white/20">
                 <h3 className="text-2xl font-bold text-gray-900 mb-8">Send me a message</h3>
                 
-                {isSubmitted && (
+                {status.success && (
                   <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl flex items-center space-x-3">
                     <CheckCircle className="w-5 h-5 text-green-600" />
-                    <p className="text-green-800 font-medium">Message sent successfully! I'll get back to you soon.</p>
+                    <p className="text-green-800 font-medium">{status.message}</p>
+                  </div>
+                )}
+                
+                {status.error && (
+                  <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-center space-x-3">
+                    <AlertCircle className="w-5 h-5 text-red-600" />
+                    <p className="text-red-800 font-medium">{status.message}</p>
                   </div>
                 )}
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-3">
@@ -123,10 +180,11 @@ const Contact = () => {
                       <input
                         type="text"
                         required
+                        name="user_name" // Important for EmailJS
                         value={formData.name}
                         onChange={(e) => setFormData({...formData, name: e.target.value})}
                         className="w-full px-4 py-4 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:bg-white transition-all duration-300 text-gray-900 placeholder-gray-500"
-                        placeholder="John Doe"
+                        placeholder="Your Name"
                       />
                     </div>
                     <div>
@@ -136,10 +194,11 @@ const Contact = () => {
                       <input
                         type="email"
                         required
+                        name="user_email" // Important for EmailJS
                         value={formData.email}
                         onChange={(e) => setFormData({...formData, email: e.target.value})}
                         className="w-full px-4 py-4 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:bg-white transition-all duration-300 text-gray-900 placeholder-gray-500"
-                        placeholder="john@example.com"
+                        placeholder="name@example.com"
                       />
                     </div>
                   </div>
@@ -150,6 +209,7 @@ const Contact = () => {
                     </label>
                     <textarea
                       required
+                      name="message" // Important for EmailJS
                       value={formData.message}
                       onChange={(e) => setFormData({...formData, message: e.target.value})}
                       rows={6}
@@ -160,9 +220,10 @@ const Contact = () => {
 
                   <button
                     type="submit"
-                    className="w-full group bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl flex items-center justify-center space-x-3"
+                    disabled={isSubmitting}
+                    className={`w-full group bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl flex items-center justify-center space-x-3 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
                   >
-                    <span>Send Message</span>
+                    <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
                     <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                   </button>
                 </form>

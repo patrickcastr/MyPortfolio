@@ -154,7 +154,7 @@ export default function Register() {
     <div className="container mx-auto py-8 px-4">
       {/* Header Section */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-6">Technical Issues Register</h1>
+        <h1 className="text-3xl font-bold mb-6">Register</h1>
         
         <div className="flex flex-wrap gap-4 mb-6">
           <Button onClick={clearFilters} variant="outline" className="flex items-center gap-2">

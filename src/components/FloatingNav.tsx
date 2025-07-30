@@ -1,6 +1,6 @@
 
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Home, User, Briefcase, UserPlus, MessageCircle } from 'lucide-react'
+import { Home, User, Briefcase,  MessageCircle } from 'lucide-react'
 
 const FloatingNav = () => {
   const navigate = useNavigate()
@@ -10,7 +10,6 @@ const FloatingNav = () => {
     { icon: Home, path: '/', label: 'Home' },
     { icon: User, path: '/about', label: 'About' },
     { icon: Briefcase, path: '/portfolio', label: 'Portfolio' },
-    { icon: UserPlus, path: '/register', label: 'Register' },
     { icon: MessageCircle, path: '/contact', label: 'Contact' },
   ]
 
