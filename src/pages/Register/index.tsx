@@ -1,4 +1,3 @@
-import React from 'react';
 import RegisterHeader from './components/RegisterHeader';
 import RegisterFilters from './components/RegisterFilters';
 import RegisterTable from './components/RegisterTable';

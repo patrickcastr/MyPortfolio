@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -107,8 +107,7 @@ const statusColors = {
 };
 
 export default function Register() {
-  const [data, setData] = useState<RegisterItem[]>(mockData);
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = React.useState({
     id: '',
     facility: '',
     plant: '',
@@ -118,21 +117,19 @@ export default function Register() {
     reviewed: '',
   });
 
-  const filteredData = useMemo(() => {
-    return data.filter((item) => {
-      return (
-        item.id.toLowerCase().includes(filters.id.toLowerCase()) &&
-        item.facility.toLowerCase().includes(filters.facility.toLowerCase()) &&
-        item.plant.toLowerCase().includes(filters.plant.toLowerCase()) &&
-        item.asset.toLowerCase().includes(filters.asset.toLowerCase()) &&
-        item.category.toLowerCase().includes(filters.category.toLowerCase()) &&
-        (filters.status === '' || item.status === filters.status) &&
-        (filters.reviewed === '' || 
-         (filters.reviewed === 'true' && item.reviewed) ||
-         (filters.reviewed === 'false' && !item.reviewed))
-      );
-    });
-  }, [data, filters]);
+  const filteredData = mockData.filter((item) => {
+    return (
+      item.id.toLowerCase().includes(filters.id.toLowerCase()) &&
+      item.facility.toLowerCase().includes(filters.facility.toLowerCase()) &&
+      item.plant.toLowerCase().includes(filters.plant.toLowerCase()) &&
+      item.asset.toLowerCase().includes(filters.asset.toLowerCase()) &&
+      item.category.toLowerCase().includes(filters.category.toLowerCase()) &&
+      (filters.status === '' || item.status === filters.status) &&
+      (filters.reviewed === '' ||
+        (filters.reviewed === 'true' && item.reviewed) ||
+        (filters.reviewed === 'false' && !item.reviewed))
+    );
+  });
 
   const clearFilters = () => {
     setFilters({
@@ -147,7 +144,7 @@ export default function Register() {
   };
 
   const handleFilterChange = (field: string, value: string) => {
-    setFilters(prev => ({ ...prev, [field]: value }));
+    setFilters((prev) => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -155,9 +152,13 @@ export default function Register() {
       {/* Header Section */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-6">Register</h1>
-        
+
         <div className="flex flex-wrap gap-4 mb-6">
-          <Button onClick={clearFilters} variant="outline" className="flex items-center gap-2">
+          <Button
+            onClick={clearFilters}
+            variant="outline"
+            className="flex items-center gap-2"
+          >
             <Filter className="h-4 w-4" />
             Clear Filter
           </Button>
@@ -198,7 +199,10 @@ export default function Register() {
             value={filters.category}
             onChange={(e) => handleFilterChange('category', e.target.value)}
           />
-          <Select value={filters.status} onValueChange={(value) => handleFilterChange('status', value)}>
+          <Select
+            value={filters.status}
+            onValueChange={(value) => handleFilterChange('status', value)}
+          >
             <SelectTrigger>
               <SelectValue placeholder="All Statuses" />
             </SelectTrigger>
@@ -210,7 +214,10 @@ export default function Register() {
               <SelectItem value="Overdue">Overdue</SelectItem>
             </SelectContent>
           </Select>
-          <Select value={filters.reviewed} onValueChange={(value) => handleFilterChange('reviewed', value)}>
+          <Select
+            value={filters.reviewed}
+            onValueChange={(value) => handleFilterChange('reviewed', value)}
+          >
             <SelectTrigger>
               <SelectValue placeholder="Review Status" />
             </SelectTrigger>
@@ -248,7 +255,9 @@ export default function Register() {
                   <TableCell>{item.plant}</TableCell>
                   <TableCell>{item.asset}</TableCell>
                   <TableCell>{item.category}</TableCell>
-                  <TableCell>{new Date(item.expiryDate).toLocaleDateString()}</TableCell>
+                  <TableCell>
+                    {new Date(item.expiryDate).toLocaleDateString()}
+                  </TableCell>
                   <TableCell>
                     <Badge className={statusColors[item.status]}>
                       {item.status}
@@ -293,7 +302,7 @@ export default function Register() {
 
       {/* Results Count */}
       <div className="mt-4 text-sm text-muted-foreground">
-        Showing {filteredData.length} of {data.length} results
+        Showing {filteredData.length} of {mockData.length} results
       </div>
     </div>
   );
