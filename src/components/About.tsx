@@ -44,10 +44,12 @@ const About = () => {
 
         <div className="bg-white/20 backdrop-blur-md rounded-2xl p-8 border border-white/30">
           <h2 className="text-2xl font-bold text-gray-800 mb-6">My Story</h2>
-          <p className="text-gray-600 leading-relaxed">
-Hi, I'm Patrick—a full-stack developer who’s all about turning ideas into digital solutions that actually make life easier. With over 3 years of experience building everything from streamlined business tools to quirky side projects, my journey started with a simple curiosity: “How does this work?” That question led me from tinkering with code after hours to collaborating with teams and bringing real products to life.
-Along the way, I discovered that great applications aren’t just about clean code—they’re about solving real problems, making things work better, and adding a bit of joy to the everyday. Whether it’s automating a workflow, connecting systems that “aren’t supposed to talk,” or helping someone see their data in a new light, I love that sweet spot where tech meets impact.
-These days, I’m passionate about building solutions that are not only functional and beautiful, but also truly helpful. If you’ve got a problem to solve or a project in mind, I’d love to chat.
+          <p className="text-gray-600 leading-relaxed">Hey, I’m Patrick. 
+            I’m a full-stack developer who just likes figuring out how stuff works and making tech actually useful for people.
+             I didn’t start out in traditional software dev. My first foray was with low-code platforms, just trying to automate boring stuff at work and see if I could make things run smoother. That curiosity quickly got out of hand (in the best way), and suddenly 
+             I was hooked: writing scripts, connecting apps that weren’t supposed to talk, and building tools that made a real difference for my team.
+Over the last few years, I’ve worked on everything from business dashboards to random side projects that scratch my itch to try new things. I’m big on building things that solve real problems, not just ticking boxes or shipping pretty code. It’s the “aha!” moments,when someone saves hours on a task or finally gets insight from their data—that keep me motivated.
+These days, I still love that space where code meets impact, whether I’m fixing a gnarly workflow, creating a slick Power BI report, or just helping someone automate the stuff they hate doing. If you’ve got a challenge or a wild idea you want to test out, let’s have a chat. Check out my CV, and if something clicks, I’d be keen to work together.
           </p>
         </div>
       </div>

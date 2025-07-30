@@ -23,7 +23,7 @@ const Portfolio = () => {
       description: "System for tracking and managing issues and bugs",
       image: "https://images.unsplash.com/photo-1581472723648-909f4851d4ae?w=400&h=300&fit=crop",
       tech: ["React", "ASP.NET Core", "SQL"],
-      demo: "/register",
+      demo: "#/register",
       github: "#"
     },
     {
