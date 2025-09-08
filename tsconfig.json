@@ -16,13 +16,14 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
-    "paths": {
+  "paths": {
       "@/*": ["./src/*"],
       "@/components/*": ["./src/components/*"],
       "@/lib/*": ["./src/lib/*"],
       "@/utils/*": ["./src/utils/*"],
       "@/pages/*": ["./src/pages/*"]
-    }
+  },
+  "types": ["vite/client"]
   },
   "include": ["src"]
 }

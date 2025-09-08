@@ -14,7 +14,7 @@ const Homepage = () => {
             <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-r from-blue-400 to-blue-600 p-1 shadow-2xl">
               <div className="w-full h-full rounded-full bg-gray-200 overflow-hidden">
                 <img 
-                  src="MyPortfolio/resources/me.jpg" 
+                  src={`${import.meta.env.BASE_URL}resources/me.jpg`} 
                   alt="Patrick Castrence" 
                   className="w-full h-full object-cover"
                 />
@@ -59,7 +59,7 @@ const Homepage = () => {
           {/* CTA Button */}
           <button 
             onClick={() => navigate('/portfolio')}
-            className="group inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-full hover:from-blue-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+            className="group inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-full hover:from-blue-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:ring-offset-white/10"
           >
             View My Work
             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
