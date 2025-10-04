@@ -99,6 +99,18 @@ const Contact = () => {
               </div>
 
               <div className="space-y-8">
+                {/* Primary Scheduler Link */}
+                <div className="group">
+                  <a
+                    href={(import.meta as any).env.VITE_SCHEDULER_URL || 'mailto:pkcastrence@gmail.com?subject=Discovery%20Call&body=Hi%20Patrick%2C%20I%27d%20like%20to%20book%20a%2015-minute%20call.'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center px-5 py-3 rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold shadow-xl hover:from-green-600 hover:to-emerald-600 transform hover:scale-105 transition-all duration-300"
+                    aria-label="Schedule a 15-minute discovery call (opens in a new tab)"
+                  >
+                    Schedule a Call
+                  </a>
+                </div>
                 <div className="group">
                   <div className="flex items-start space-x-4 p-6 rounded-2xl bg-white/60 backdrop-blur-sm border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
                     <div className="flex-shrink-0">
@@ -232,18 +244,7 @@ const Contact = () => {
           </div>
         </div>
 
-        {/* Bottom CTA */}
-        <div className="text-center mt-20">
-          <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-8 border border-white/20 shadow-xl max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">Prefer a quick chat?</h3>
-            <p className="text-gray-600 mb-6">
-              Schedule a 15-minute discovery call to discuss your project needs.
-            </p>
-            <button className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105">
-              Schedule a Call
-            </button>
-          </div>
-        </div>
+        {/* Removed bottom CTA. Consider using a dedicated scheduler link above the contact details instead. */}
       </div>
     </div>
   )

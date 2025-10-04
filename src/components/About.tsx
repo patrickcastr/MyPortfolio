@@ -1,5 +1,5 @@
 
-import { Code, Palette, Zap, Box, Settings } from 'lucide-react'
+import { Code, Zap, Box, Settings } from 'lucide-react'
 
 const About = () => {
   return (
@@ -19,11 +19,6 @@ const About = () => {
             <Code className="w-12 h-12 text-blue-600 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-gray-800 mb-3">Development</h3>
             <p className="text-gray-600">React, TypeScript,Vite, ASP.NET and modern web technologies.</p>
-          </div>
-          <div className="bg-white/20 backdrop-blur-md rounded-2xl p-6 border border-white/30 text-center">
-            <Palette className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-            <h3 className="text-xl font-bold text-gray-800 mb-3">Design</h3>
-            <p className="text-gray-600">Creating intuitive user interfaces with attention to detail.</p>
           </div>
           <div className="bg-white/20 backdrop-blur-md rounded-2xl p-6 border border-white/30 text-center">
             <Zap className="w-12 h-12 text-blue-600 mx-auto mb-4" />
