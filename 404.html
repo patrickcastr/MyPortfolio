@@ -8,11 +8,9 @@
       // Preserve the requested path and redirect to HashRouter route under the repo base
       (function() {
         var l = window.location;
-        var repo = '/MyPortfolio';
-        // Strip the repo base from the path if present, so "/MyPortfolio/portfolio" => "/portfolio"
-        var path = l.pathname.replace(new RegExp('^' + repo), '');
-        if (!path || path === '/') path = '/';
-        var target = l.origin + repo + '/#' + path + l.search + l.hash;
+        // Root domain deployment: redirect to hash route preserving path/search/hash
+        var path = l.pathname || '/';
+        var target = l.origin + '/#' + path + l.search + l.hash;
         l.replace(target);
       })();
     </script>
@@ -48,7 +46,7 @@
       <h1>Page Not Found</h1>
       <p>The page you're looking for doesn't exist or has been moved.</p>
       <p>You will be redirected to the homepage automatically.</p>
-  <p>If you're not redirected, <a href="/MyPortfolio/#/">click here</a> to go to the homepage.</p>
+  <p>If you're not redirected, <a href="/#/">click here</a> to go to the homepage.</p>
     </div>
   </body>
 </html>
