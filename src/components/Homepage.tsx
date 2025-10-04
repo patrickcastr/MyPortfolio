@@ -45,15 +45,16 @@ const Homepage = () => {
         {/* Hero Content */}
         <div className="mb-12">
           <h2 className="text-3xl md:text-5xl font-bold text-gray-800 mb-6 leading-tight">
-            Full Stack Developer &<br />
+            Full Stack Developer •<br />
             <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
-              Digital Creator
+              SaaS Builder • Power Platform Specialist
             </span>
           </h2>
-          
+
           <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
-            Crafting beautiful digital experiences with modern technologies. 
-            Passionate about creating solutions that make a difference.
+            Crafting scalable web and cloud solutions — from custom SaaS platforms to Power Apps & Power Pages that
+            transform business processes. I bring together modern web stacks (React, Node, Postgres, Cloud Run/Azure)
+            with Microsoft 365 & Power Platform to create secure, integrated, and impactful digital experiences.
           </p>
 
           {/* CTA Button */}
