@@ -10,12 +10,11 @@ const Portfolio = () => {
       demo: "https://digitalsignagedev-110975131079.australia-southeast1.run.app/admin/login"
     },
     {
-      title: "Task Management App",
-      description: "Collaborative task management with real-time updates",
-      image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400&h=300&fit=crop",
-      tech: ["TypeScript", "React", "Firebase"],
-      demo: "#",
-      github: "#"
+      title: "ParentHub (Demo)",
+      description: "School communication hub for parents: announcements, events, and resources.",
+      image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&h=300&fit=crop",
+      tech: ["React", "Node", "PostgreSQL", "Cloud Run"],
+      demo: "https://parenthub-110975131079.australia-southeast1.run.app/"
     },
     {
       title: "Issues Register",
