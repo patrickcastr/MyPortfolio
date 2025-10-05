@@ -14,7 +14,7 @@ const Homepage = () => {
             <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-r from-blue-400 to-blue-600 p-1 shadow-2xl">
               <div className="w-full h-full rounded-full bg-gray-200 overflow-hidden">
                 <img 
-                  src={`${import.meta.env.BASE_URL}resources/me.jpg`} 
+                  src={`${import.meta.env.BASE_URL}resources/me2.jpg`} 
                   alt="Patrick Castrence" 
                   className="w-full h-full object-cover"
                 />

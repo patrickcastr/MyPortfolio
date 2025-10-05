@@ -5,14 +5,14 @@ const Portfolio = () => {
     {
       title: "Digital Signage Platform (Demo)",
       description: "Admin portal for managing screens, playlists, and content scheduling.",
-      image: "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=400&h=300&fit=crop",
+  image: `${import.meta.env.BASE_URL}resources/digitalsignage.png`,
       tech: ["React", "Node", "PostgreSQL", "Cloud Run"],
       demo: "https://digitalsignagedev-110975131079.australia-southeast1.run.app/admin/login"
     },
     {
       title: "ParentHub (Demo)",
       description: "School communication hub for parents: announcements, events, and resources.",
-      image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&h=300&fit=crop",
+  image: `${import.meta.env.BASE_URL}resources/parenthub.png`,
       tech: ["React", "Node", "PostgreSQL", "Cloud Run"],
       demo: "https://parenthub-110975131079.australia-southeast1.run.app/"
     },
