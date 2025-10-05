@@ -4,7 +4,7 @@ import { Code, Zap, Box, Settings } from 'lucide-react'
 const About = () => {
   return (
     <div className="min-h-screen px-4 py-20">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent mb-6">
             About Patrick
@@ -14,23 +14,23 @@ const About = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-16">
-          <div className="bg-white/20 backdrop-blur-md rounded-2xl p-6 border border-white/30 text-center">
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          <div className="bg-white/20 backdrop-blur-md rounded-2xl p-6 border border-white/30 text-center h-full">
             <Code className="w-12 h-12 text-blue-600 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-gray-800 mb-3">Development</h3>
             <p className="text-gray-600">React, TypeScript,Vite, ASP.NET and modern web technologies.</p>
           </div>
-          <div className="bg-white/20 backdrop-blur-md rounded-2xl p-6 border border-white/30 text-center">
+          <div className="bg-white/20 backdrop-blur-md rounded-2xl p-6 border border-white/30 text-center h-full">
             <Zap className="w-12 h-12 text-blue-600 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-gray-800 mb-3">Performance</h3>
             <p className="text-gray-600">Optimizing applications for speed and scalability.</p>
           </div>
-          <div className="bg-white/20 backdrop-blur-md rounded-2xl p-6 border border-white/30 text-center">
+          <div className="bg-white/20 backdrop-blur-md rounded-2xl p-6 border border-white/30 text-center h-full">
             <Box className="w-12 h-12 text-blue-600 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-gray-800 mb-3">3D Printing</h3>
             <p className="text-gray-600">Creating physical objects with digital design and additive manufacturing.</p>
           </div>
-          <div className="bg-white/20 backdrop-blur-md rounded-2xl p-6 border border-white/30 text-center">
+          <div className="bg-white/20 backdrop-blur-md rounded-2xl p-6 border border-white/30 text-center h-full">
             <Settings className="w-12 h-12 text-blue-600 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-gray-800 mb-3">Power Platform</h3>
             <p className="text-gray-600">Low-code solutions for business automation and productivity.</p>
