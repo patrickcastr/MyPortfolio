@@ -3,12 +3,11 @@ import { ExternalLink, Github } from 'lucide-react'
 const Portfolio = () => {
   const projects = [
     {
-      title: "Another E-commerce platform",
-      description: "Modern e-commerce solution built with React and Django",
-      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=300&fit=crop",
-      tech: ["React", "Django", "MongoDB"],
-      demo: "#",
-      github: "#"
+      title: "Digital Signage Platform (Demo)",
+      description: "Admin portal for managing screens, playlists, and content scheduling.",
+      image: "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=400&h=300&fit=crop",
+      tech: ["React", "Node", "PostgreSQL", "Cloud Run"],
+      demo: "https://digitalsignagedev-110975131079.australia-southeast1.run.app/admin/login"
     },
     {
       title: "Task Management App",
@@ -63,14 +62,16 @@ const Portfolio = () => {
                   ))}
                 </div>
                 <div className="flex space-x-4">
-                  <a href={project.demo} className="flex items-center text-blue-600 hover:text-blue-800">
+                  <a href={project.demo} target="_blank" rel="noopener noreferrer" className="flex items-center text-blue-600 hover:text-blue-800">
                     <ExternalLink className="w-4 h-4 mr-1" />
                     Demo
                   </a>
-                  <a href={project.github} className="flex items-center text-blue-600 hover:text-blue-800">
-                    <Github className="w-4 h-4 mr-1" />
-                    Code
-                  </a>
+                  {project.github && (
+                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center text-blue-600 hover:text-blue-800">
+                      <Github className="w-4 h-4 mr-1" />
+                      Code
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
