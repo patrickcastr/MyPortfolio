@@ -67,21 +67,7 @@ const Homepage = () => {
           </button>
         </div>
 
-        {/* Stats/Features */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
-          <div className="bg-white/20 backdrop-blur-md rounded-2xl p-6 border border-white/30">
-            <h3 className="text-2xl font-bold text-blue-700 mb-2">5+</h3>
-            <p className="text-gray-600">Projects Completed</p>
-          </div>
-          <div className="bg-white/20 backdrop-blur-md rounded-2xl p-6 border border-white/30">
-            <h3 className="text-2xl font-bold text-blue-700 mb-2">3+</h3>
-            <p className="text-gray-600">Years Experience</p>
-          </div>
-          <div className="bg-white/20 backdrop-blur-md rounded-2xl p-6 border border-white/30">
-            <h3 className="text-2xl font-bold text-blue-700 mb-2">99.99%</h3>
-            <p className="text-gray-600">Client Satisfaction</p>
-          </div>
-        </div>
+        {/* Stats/Features removed */}
       </div>
     </div>
   )
