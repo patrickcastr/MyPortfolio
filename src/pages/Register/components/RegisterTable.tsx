@@ -48,7 +48,7 @@ export default function RegisterTable({
 }: RegisterTableProps) {
   return (
     <>
-      <div className="border rounded-lg overflow-hidden">
+      <div className="overflow-hidden rounded-3xl border border-white/30 bg-white/80 shadow-xl backdrop-blur-md">
         <div className="overflow-x-auto">
           <Table>
             <TableHeader className="sticky top-0 bg-background">
@@ -58,7 +58,7 @@ export default function RegisterTable({
                 <TableHead className="min-w-[120px]">Plant</TableHead>
                 <TableHead className="min-w-[120px]">Asset</TableHead>
                 <TableHead className="min-w-[120px]">Category</TableHead>
-                <TableHead className="min-w-[120px]">Expiry Date</TableHead>
+                <TableHead className="min-w-[120px]">Due Date</TableHead>
                 <TableHead className="min-w-[100px]">Status</TableHead>
                 <TableHead className="min-w-[80px] text-center">Reviewed</TableHead>
                 <TableHead className="min-w-[80px] text-center">Actions</TableHead>
@@ -136,8 +136,9 @@ export default function RegisterTable({
       </div>
 
       {/* Results Count */}
-      <div className="mt-4 text-sm text-muted-foreground">
-        Showing {data.length} of {totalCount} results
+      <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground">
+        <span>Showing {data.length} of {totalCount} records</span>
+        <span>Example internal platform by Kraftylytix</span>
       </div>
     </>
   );

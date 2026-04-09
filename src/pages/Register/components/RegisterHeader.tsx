@@ -9,12 +9,12 @@ interface RegisterHeaderProps {
 export default function RegisterHeader({ onClearFilters, onNewItem }: RegisterHeaderProps) {
   const handleHelp = () => {
     // TODO: Implement help/procedure modal
-    console.log('Help/Procedure clicked');
+    console.log('View procedure clicked');
   };
 
   return (
-    <div className="mb-8">
-      <h1 className="text-3xl font-bold mb-6">Technical Issues Register</h1>
+    <div className="mb-6">
+      <h2 className="mb-6 text-2xl font-bold text-gray-900">Manage records and workflow follow-up</h2>
       
       <div className="flex flex-wrap gap-4 mb-6">
         <Button 
@@ -23,7 +23,7 @@ export default function RegisterHeader({ onClearFilters, onNewItem }: RegisterHe
           className="flex items-center gap-2"
         >
           <Filter className="h-4 w-4" />
-          Clear Filter
+          Clear Filters
         </Button>
         <Button 
           onClick={handleHelp}
@@ -31,14 +31,14 @@ export default function RegisterHeader({ onClearFilters, onNewItem }: RegisterHe
           className="flex items-center gap-2"
         >
           <HelpCircle className="h-4 w-4" />
-          Help/Procedure
+          View Procedure
         </Button>
         <Button 
           onClick={onNewItem}
           className="flex items-center gap-2"
         >
           <Plus className="h-4 w-4" />
-          New
+          New Record
         </Button>
       </div>
     </div>

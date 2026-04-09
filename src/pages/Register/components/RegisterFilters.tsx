@@ -17,27 +17,27 @@ export default function RegisterFilters({ filters, onFilterChange }: RegisterFil
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
       <Input
-        placeholder="Filter by ID..."
+        placeholder="Search by ID..."
         value={filters.id}
         onChange={(e) => onFilterChange('id', e.target.value)}
       />
       <Input
-        placeholder="Filter by Facility..."
+        placeholder="Search by facility..."
         value={filters.facility}
         onChange={(e) => onFilterChange('facility', e.target.value)}
       />
       <Input
-        placeholder="Filter by Plant..."
+        placeholder="Search by plant..."
         value={filters.plant}
         onChange={(e) => onFilterChange('plant', e.target.value)}
       />
       <Input
-        placeholder="Filter by Asset..."
+        placeholder="Search by asset..."
         value={filters.asset}
         onChange={(e) => onFilterChange('asset', e.target.value)}
       />
       <Input
-        placeholder="Filter by Category..."
+        placeholder="Search by category..."
         value={filters.category}
         onChange={(e) => onFilterChange('category', e.target.value)}
       />

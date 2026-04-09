@@ -48,7 +48,7 @@ export function useRegisterData() {
 
   const handleNewItem = () => {
     // TODO: Implement new item creation
-    console.log('New item clicked');
+    console.log('New record clicked');
   };
 
   const handleEditItem = (item: RegisterItem) => {
