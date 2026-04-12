@@ -138,7 +138,6 @@ This project is open source and available under the [MIT License](LICENSE).
 
 Feel free to reach out if you have any questions or suggestions!
 
-- **Email**: pkcastrence@gmail.com
 - **LinkedIn**: https://www.linkedin.com/in/patrick-keith-castrence-b1809598/
 - **GitHub**: https://github.com/patrickcastr
 

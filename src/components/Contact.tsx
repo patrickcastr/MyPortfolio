@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { AlertCircle, CheckCircle, Mail, MapPin, Phone, Send } from 'lucide-react'
+import { AlertCircle, CheckCircle, MapPin, Send } from 'lucide-react'
 import emailjs from '@emailjs/browser'
 import { primaryCtaLabel } from '../content/siteContent'
 
@@ -98,8 +98,7 @@ const Contact = () => {
                 <div className="group">
                   <a
                     href={
-                      (import.meta as any).env.VITE_SCHEDULER_URL ||
-                      'mailto:pkcastrence@gmail.com?subject=Kraftylytix%20Discovery%20Conversation&body=Hi%20Patrick%2C%20I%27d%20like%20to%20start%20a%20discovery%20conversation%20about%20a%20business%20systems%20or%20automation%20project.'
+                      (import.meta as any).env.VITE_SCHEDULER_URL || '#contact'
                     }
                     target="_blank"
                     rel="noopener noreferrer"
@@ -110,35 +109,7 @@ const Contact = () => {
                   </a>
                 </div>
 
-                <div className="group">
-                  <div className="flex items-start space-x-4 rounded-2xl border border-white/20 bg-white/60 p-6 shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl">
-                    <div className="flex-shrink-0">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500">
-                        <Mail className="h-6 w-6 text-white" />
-                      </div>
-                    </div>
-                    <div>
-                      <h3 className="mb-1 text-lg font-semibold text-gray-900">Email</h3>
-                      <p className="text-gray-600">pkcastrence@gmail.com</p>
-                      <p className="mt-1 text-sm text-gray-500">Best for discovery notes, project scope, and follow-up.</p>
-                    </div>
-                  </div>
-                </div>
 
-                <div className="group">
-                  <div className="flex items-start space-x-4 rounded-2xl border border-white/20 bg-white/60 p-6 shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl">
-                    <div className="flex-shrink-0">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-r from-green-500 to-emerald-500">
-                        <Phone className="h-6 w-6 text-white" />
-                      </div>
-                    </div>
-                    <div>
-                      <h3 className="mb-1 text-lg font-semibold text-gray-900">Phone</h3>
-                      <p className="text-gray-600">+64 22 345 4932</p>
-                      <p className="mt-1 text-sm text-gray-500">Available for consultation calls during NZ business hours.</p>
-                    </div>
-                  </div>
-                </div>
 
                 <div className="group">
                   <div className="flex items-start space-x-4 rounded-2xl border border-white/20 bg-white/60 p-6 shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl">
