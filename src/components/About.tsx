@@ -1,5 +1,6 @@
 import { ArrowRight, Building2, Code, Settings, Workflow } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { primaryCtaLabel } from '../content/siteContent'
 
 const capabilities = [
   {
@@ -93,7 +94,7 @@ const About = () => {
               onClick={() => navigate('/contact')}
               className="group mt-8 inline-flex items-center rounded-full bg-white px-6 py-3 font-semibold text-blue-700 transition-all duration-300 hover:scale-105 hover:bg-blue-50"
             >
-              Book a Discovery Call
+              {primaryCtaLabel}
               <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
             </button>
           </div>

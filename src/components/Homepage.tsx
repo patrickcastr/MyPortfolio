@@ -1,150 +1,40 @@
+import { ArrowRight, CheckCircle2 } from 'lucide-react'
+import { useEffect } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import {
-  ArrowRight,
-  AppWindow,
-  Briefcase,
-  Building2,
-  CheckCircle2,
-  Gauge,
-  Layers,
-  Lightbulb,
-  Link2,
-  PenTool,
-  RefreshCcw,
-  Rocket,
-  Search,
-  Settings,
-  Workflow,
-  Wrench,
-} from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
-
-type Card = {
-  title: string
-  description: string
-  icon: LucideIcon
-}
-
-type ProcessStep = {
-  step: string
-  title: string
-  description: string
-  icon: LucideIcon
-}
-
-const services: Card[] = [
-  {
-    title: 'Business Systems Consulting',
-    description:
-      'Design clearer operating systems, roles, and workflows so teams can scale without adding more manual complexity.',
-    icon: Briefcase,
-  },
-  {
-    title: 'Power Platform Solutions',
-    description:
-      'Build tailored Power Apps, Power Automate, Power BI, and Power Pages solutions that fit how your business actually works.',
-    icon: Settings,
-  },
-  {
-    title: 'Custom Internal Tools',
-    description:
-      'Replace fragile spreadsheets with secure internal apps, dashboards, and portals built around your day-to-day operations.',
-    icon: AppWindow,
-  },
-  {
-    title: 'Workflow Automation',
-    description:
-      'Automate approvals, notifications, handoffs, and repetitive tasks to reduce delays and eliminate avoidable admin work.',
-    icon: Workflow,
-  },
-  {
-    title: 'SaaS MVP Development',
-    description:
-      'Launch practical MVPs with modern architecture, fast feedback loops, and a delivery approach focused on real business value.',
-    icon: Rocket,
-  },
-  {
-    title: 'System Integration',
-    description:
-      'Connect your core tools, data, and processes so information moves cleanly across the business instead of living in silos.',
-    icon: Link2,
-  },
-]
-
-const differentiators: Card[] = [
-  {
-    title: 'Systems-first approach',
-    description:
-      'We look at process, data, ownership, and workflow design before jumping straight into implementation.',
-    icon: Layers,
-  },
-  {
-    title: 'Business + technical thinking',
-    description:
-      'Operational pain points are translated into solutions that make sense for both stakeholders and delivery teams.',
-    icon: Lightbulb,
-  },
-  {
-    title: 'Rapid delivery',
-    description:
-      'Working improvements ship early so teams can validate direction, reduce risk, and see value faster.',
-    icon: Gauge,
-  },
-  {
-    title: 'Scalable foundations',
-    description:
-      'Solutions are structured to support growth, adoption, and future enhancements without becoming brittle.',
-    icon: Building2,
-  },
-]
-
-const problems = [
-  'Too many spreadsheets',
-  'Manual approvals',
-  'Disconnected systems',
-  'Duplicate data entry',
-  'Poor reporting visibility',
-  'Legacy processes',
-  'No single source of truth',
-  'Scaling operational complexity',
-]
-
-const processSteps: ProcessStep[] = [
-  {
-    step: '1',
-    title: 'Discover',
-    description: 'We map the current process, identify bottlenecks, and define the business outcomes that matter most.',
-    icon: Search,
-  },
-  {
-    step: '2',
-    title: 'Design',
-    description: 'We shape the right mix of systems, workflows, and user experience before development begins.',
-    icon: PenTool,
-  },
-  {
-    step: '3',
-    title: 'Build',
-    description: 'We deliver the platform, automation, or internal tool with a practical focus on speed and usability.',
-    icon: Wrench,
-  },
-  {
-    step: '4',
-    title: 'Improve',
-    description: 'We refine, extend, and optimize once the solution is in use so it keeps pace with your business.',
-    icon: RefreshCcw,
-  },
-]
+  capabilityStrip,
+  differentiators,
+  engagementTypes,
+  primaryCtaLabel,
+  problems,
+  processSteps,
+  services,
+} from '../content/siteContent'
 
 const Homepage = () => {
+  const location = useLocation()
   const navigate = useNavigate()
 
   const scrollToSection = (sectionId: string) => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
+  useEffect(() => {
+    const sectionId = new URLSearchParams(location.search).get('section')
+
+    if (!sectionId) {
+      return
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 50)
+
+    return () => window.clearTimeout(timeoutId)
+  }, [location.search])
+
   return (
-    <div className="relative overflow-hidden px-4 py-20">
+    <div className="relative overflow-hidden px-4 pb-20 pt-10">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-[-8rem] top-24 h-72 w-72 rounded-full bg-blue-200/40 blur-3xl" />
         <div className="absolute right-[-6rem] top-40 h-80 w-80 rounded-full bg-sky-200/30 blur-3xl" />
@@ -152,7 +42,7 @@ const Homepage = () => {
       </div>
 
       <div className="relative mx-auto max-w-6xl">
-        <section className="flex min-h-[78vh] items-center justify-center py-8">
+        <section className="flex min-h-[70vh] items-center justify-center py-8">
           <div className="w-full text-center">
             <div className="mb-6 inline-flex items-center rounded-full border border-white/40 bg-white/30 px-4 py-2 text-sm font-medium text-blue-700 shadow-lg backdrop-blur-md">
               Technology consulting for modern operations
@@ -179,7 +69,7 @@ const Homepage = () => {
                   onClick={() => navigate('/contact')}
                   className="group inline-flex items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-blue-600 px-8 py-4 text-base font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-blue-600 hover:to-blue-700 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-white/10"
                 >
-                  Book a Discovery Call
+                  {primaryCtaLabel}
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                 </button>
 
@@ -187,13 +77,28 @@ const Homepage = () => {
                   onClick={() => scrollToSection('services')}
                   className="inline-flex items-center justify-center rounded-full border border-blue-200 bg-white/60 px-8 py-4 text-base font-semibold text-blue-700 shadow-md transition-all duration-300 hover:scale-105 hover:bg-white/80"
                 >
-                  View Services
+                  Explore Services
                 </button>
               </div>
 
               <p className="text-sm text-gray-500 md:text-base">
-                Led by Patrick Castrence — Full Stack &amp; Power Platform Consultant
+                Led by Patrick Castrence: Full Stack &amp; Power Platform Consultant
               </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="pb-10">
+          <div className="rounded-[2rem] border border-white/40 bg-white/30 p-4 shadow-xl backdrop-blur-md">
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              {capabilityStrip.map((item) => (
+                <div
+                  key={item}
+                  className="rounded-full border border-blue-100 bg-white/75 px-4 py-2 text-sm font-medium text-blue-700 shadow-sm"
+                >
+                  {item}
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -201,7 +106,7 @@ const Homepage = () => {
         <section id="services" className="py-12 md:py-16">
           <div className="mb-10 text-center">
             <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-blue-700">Services</p>
-            <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-5xl">Solutions built around business flow</h2>
+            <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-5xl">Consulting and delivery built around business flow</h2>
             <p className="mx-auto max-w-3xl text-lg text-gray-600">
               From advisory work through delivery, Kraftylytix helps teams modernize the systems behind operations,
               approvals, reporting, and internal productivity.
@@ -243,7 +148,7 @@ const Homepage = () => {
           </div>
         </section>
 
-        <section className="py-12 md:py-16">
+        <section id="why-kraftylytix" className="py-12 md:py-16">
           <div className="mb-10 text-center">
             <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-blue-700">Why Kraftylytix</p>
             <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-5xl">A practical consulting partner for system change</h2>
@@ -326,6 +231,28 @@ const Homepage = () => {
           </div>
         </section>
 
+        <section id="engagement" className="py-12 md:py-16">
+          <div className="mb-10 text-center">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-blue-700">Engagement Types</p>
+            <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-5xl">How You Can Work With Kraftylytix</h2>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            {engagementTypes.map(({ title, description, icon: Icon }) => (
+              <div
+                key={title}
+                className="rounded-3xl border border-white/40 bg-white/30 p-6 shadow-xl backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:bg-white/40"
+              >
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-100 text-blue-700">
+                  <Icon className="h-6 w-6" />
+                </div>
+                <h3 className="mb-3 text-xl font-bold text-gray-800">{title}</h3>
+                <p className="leading-relaxed text-gray-600">{description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
         <section className="pb-8 pt-12 md:pb-16 md:pt-16">
           <div className="rounded-[2rem] bg-gradient-to-r from-blue-600 to-blue-700 p-8 text-center text-white shadow-2xl md:p-12">
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.25em] text-blue-100">Start the conversation</p>
@@ -336,7 +263,7 @@ const Homepage = () => {
               onClick={() => navigate('/contact')}
               className="group inline-flex items-center justify-center rounded-full bg-white px-8 py-4 text-base font-semibold text-blue-700 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-blue-50"
             >
-              Book a Discovery Call
+              {primaryCtaLabel}
               <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
             </button>
           </div>

@@ -1,5 +1,6 @@
 import { ArrowRight, Home, MessageCircle } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { primaryCtaLabel } from '../content/siteContent'
 
 const NotFound = () => {
   return (
@@ -27,7 +28,7 @@ const NotFound = () => {
             to="/contact"
             className="inline-flex items-center rounded-full border border-blue-200 bg-white/70 px-6 py-3 font-semibold text-blue-700 shadow-md transition-all duration-300 hover:scale-105 hover:bg-white"
           >
-            Contact Kraftylytix
+            {primaryCtaLabel}
             <ArrowRight className="ml-2 h-5 w-5" />
           </Link>
         </div>

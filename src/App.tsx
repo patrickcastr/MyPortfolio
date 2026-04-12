@@ -5,14 +5,14 @@ import About from './components/About'
 import Portfolio from './components/Portfolio'
 import Register from './pages/Register' // Fix path to match actual location
 import Contact from './components/Contact'
-import FloatingNav from './components/FloatingNav'
 import NotFound from './components/NotFound'
+import TopNav from './components/TopNav'
 
 function App() {
   return (
     <Router>
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
-        <FloatingNav />
+        <TopNav />
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/about" element={<About />} />

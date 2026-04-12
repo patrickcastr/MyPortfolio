@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { AlertCircle, CheckCircle, Mail, MapPin, Phone, Send } from 'lucide-react'
 import emailjs from '@emailjs/browser'
+import { primaryCtaLabel } from '../content/siteContent'
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -71,7 +72,7 @@ const Contact = () => {
             </span>
           </div>
           <h1 className="mb-6 text-5xl font-bold leading-tight text-gray-900 md:text-6xl lg:text-7xl">
-            Book a Discovery Call
+            {primaryCtaLabel}
             <span className="block bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
               with Kraftylytix
             </span>
@@ -98,14 +99,14 @@ const Contact = () => {
                   <a
                     href={
                       (import.meta as any).env.VITE_SCHEDULER_URL ||
-                      'mailto:pkcastrence@gmail.com?subject=Kraftylytix%20Discovery%20Call&body=Hi%20Patrick%2C%20I%27d%20like%20to%20book%20a%20discovery%20call%20to%20discuss%20a%20business%20systems%20or%20automation%20project.'
+                      'mailto:pkcastrence@gmail.com?subject=Kraftylytix%20Discovery%20Conversation&body=Hi%20Patrick%2C%20I%27d%20like%20to%20start%20a%20discovery%20conversation%20about%20a%20business%20systems%20or%20automation%20project.'
                     }
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 px-5 py-3 font-semibold text-white shadow-xl transition-all duration-300 hover:scale-105 hover:from-green-600 hover:to-emerald-600"
-                    aria-label="Book a discovery call with Kraftylytix"
+                    aria-label="Start a discovery conversation with Kraftylytix"
                   >
-                    Book a Discovery Call
+                    {primaryCtaLabel}
                   </a>
                 </div>
 
