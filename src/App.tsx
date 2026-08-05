@@ -5,6 +5,7 @@ import About from './components/About'
 import Portfolio from './components/Portfolio'
 import Register from './pages/Register' // Fix path to match actual location
 import Contact from './components/Contact'
+import PowerPlatformServices from './components/PowerPlatformServices'
 import NotFound from './components/NotFound'
 import TopNav from './components/TopNav'
 
@@ -18,6 +19,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/solutions" element={<Portfolio />} />
           <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/power-platform-services" element={<PowerPlatformServices />} />
           <Route path="/register" element={<Register />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/404" element={<NotFound />} />

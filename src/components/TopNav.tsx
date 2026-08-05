@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom'
+import { powerPlatformRoute } from '../content/powerPlatformContent'
 
 const TopNav = () => {
   const navigate = useNavigate()
@@ -24,6 +25,11 @@ const TopNav = () => {
       label: 'Services',
       onClick: () => navigateToSection('/', 'services'),
       isActive: location.pathname === '/' && (!activeSection || activeSection === 'services'),
+    },
+    {
+      label: 'Power Platform',
+      onClick: () => navigate(powerPlatformRoute),
+      isActive: location.pathname === powerPlatformRoute,
     },
     {
       label: 'Industries',
@@ -65,7 +71,8 @@ const TopNav = () => {
               <button
                 key={label}
                 onClick={onClick}
-                className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 ${
+                aria-current={isActive ? 'page' : undefined}
+                className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2 ${
                   isActive
                     ? 'bg-blue-500 text-white shadow-md'
                     : 'bg-white/70 text-blue-700 hover:scale-105 hover:bg-white'

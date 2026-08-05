@@ -2,10 +2,19 @@ import { ArrowRight } from 'lucide-react'
 import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { industries, primaryCtaLabel, solutionCards } from '../content/siteContent'
+import { powerPlatformRoute } from '../content/powerPlatformContent'
+import { usePageMetadata } from '../lib/usePageMetadata'
 
 const Portfolio = () => {
   const location = useLocation()
   const navigate = useNavigate()
+
+  usePageMetadata({
+    title: 'Solutions | Kraftylytix',
+    description:
+      'Solution categories from Kraftylytix: operational workflow platforms, internal portals and dashboards, automation and approval engines, and custom business platforms.',
+    path: '/solutions',
+  })
 
   useEffect(() => {
     const sectionId = new URLSearchParams(location.search).get('section')
@@ -101,6 +110,29 @@ const Portfolio = () => {
                 </button>
               </div>
             ))}
+          </div>
+        </section>
+
+        <section className="pb-4">
+          <div className="rounded-[2rem] border border-white/40 bg-white/30 p-8 shadow-xl backdrop-blur-md md:flex md:items-center md:justify-between md:gap-8">
+            <div className="mb-6 md:mb-0">
+              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-blue-700">Power Platform</p>
+              <h2 className="mb-3 text-2xl font-bold text-gray-800 md:text-3xl">
+                Already running Power Apps, Power Automate or SharePoint?
+              </h2>
+              <p className="max-w-2xl leading-relaxed text-gray-600">
+                Kraftylytix offers three fixed-scope Power Platform services: a Health Check to diagnose, an Automation
+                Rescue Sprint to repair, and Monthly PowerOps Support to keep things reliable.
+              </p>
+            </div>
+
+            <button
+              onClick={() => navigate(powerPlatformRoute)}
+              className="group inline-flex flex-shrink-0 items-center rounded-full bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2"
+            >
+              View Power Platform services
+              <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+            </button>
           </div>
         </section>
 

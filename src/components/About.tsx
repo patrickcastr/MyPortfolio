@@ -1,6 +1,7 @@
 import { ArrowRight, Building2, Code, Settings, Workflow } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { primaryCtaLabel } from '../content/siteContent'
+import { usePageMetadata } from '../lib/usePageMetadata'
 
 const capabilities = [
   {
@@ -33,6 +34,13 @@ const engagementPoints = [
 
 const About = () => {
   const navigate = useNavigate()
+
+  usePageMetadata({
+    title: 'About Kraftylytix | Business Systems and Power Platform Consultancy',
+    description:
+      'Kraftylytix is a New Plymouth based technology consultancy focused on business systems, automation, Power Platform and custom software that improves how teams operate day to day.',
+    path: '/about',
+  })
 
   return (
     <div className="min-h-screen px-4 py-20">

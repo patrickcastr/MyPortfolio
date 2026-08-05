@@ -1,18 +1,74 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { AlertCircle, CheckCircle, MapPin, Send } from 'lucide-react'
+import { useLocation } from 'react-router-dom'
 import emailjs from '@emailjs/browser'
 import { primaryCtaLabel } from '../content/siteContent'
+import { powerOpsServiceOptions } from '../content/powerPlatformContent'
+import { usePageMetadata } from '../lib/usePageMetadata'
+
+const GENERAL_ENQUIRY = 'general'
+
+/** Optional external scheduler. When unset, the CTA sends people to the form instead of a dead link. */
+const schedulerUrl: string | undefined = (import.meta as any).env.VITE_SCHEDULER_URL
+
+const serviceOptions = [
+  ...powerOpsServiceOptions,
+  { id: GENERAL_ENQUIRY, name: 'General enquiry / not sure yet' },
+]
+
+const contactMethods = ['Email', 'Phone call', 'Either'] as const
+
+const serviceLabel = (id: string) =>
+  serviceOptions.find((option) => option.id === id)?.name ?? serviceOptions[serviceOptions.length - 1].name
 
 const Contact = () => {
+  const location = useLocation()
+
   const [formData, setFormData] = useState({
     name: '',
+    business: '',
     email: '',
+    service: GENERAL_ENQUIRY,
     message: '',
+    preferredContact: 'Email' as (typeof contactMethods)[number],
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [status, setStatus] = useState({ success: false, error: false, message: '' })
 
   const formRef = useRef(null)
+
+  usePageMetadata({
+    title: 'Contact Kraftylytix | Business Systems and Power Platform Support',
+    description:
+      'Tell Kraftylytix about the app, automation or process that needs attention. Book a Power Platform Health Check or ask about an Automation Rescue Sprint or Monthly PowerOps Support.',
+    path: '/contact',
+  })
+
+  // The app has no global scroll restoration, so land at the top of the page.
+  useEffect(() => {
+    window.scrollTo({ top: 0 })
+  }, [])
+
+  useEffect(() => {
+    const requestedService = new URLSearchParams(location.search).get('service')
+
+    if (!requestedService || !serviceOptions.some((option) => option.id === requestedService)) {
+      return
+    }
+
+    setFormData((current) => ({ ...current, service: requestedService }))
+  }, [location.search])
+
+  const isServicePreselected = formData.service !== GENERAL_ENQUIRY
+
+  // Composed into the single `message` variable the existing email templates already use.
+  const composedMessage = [
+    `Service of interest: ${serviceLabel(formData.service)}`,
+    `Business name: ${formData.business.trim() || 'Not provided'}`,
+    `Preferred contact method: ${formData.preferredContact}`,
+    '',
+    formData.message,
+  ].join('\n')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -37,8 +93,11 @@ const Contact = () => {
 
       setFormData({
         name: '',
+        business: '',
         email: '',
+        service: GENERAL_ENQUIRY,
         message: '',
+        preferredContact: 'Email',
       })
 
       setStatus({
@@ -96,17 +155,28 @@ const Contact = () => {
 
               <div className="space-y-8">
                 <div className="group">
-                  <a
-                    href={
-                      (import.meta as any).env.VITE_SCHEDULER_URL || '#contact'
-                    }
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 px-5 py-3 font-semibold text-white shadow-xl transition-all duration-300 hover:scale-105 hover:from-green-600 hover:to-emerald-600"
-                    aria-label="Start a discovery conversation with Kraftylytix"
-                  >
-                    {primaryCtaLabel}
-                  </a>
+                  {schedulerUrl ? (
+                    <a
+                      href={schedulerUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 px-5 py-3 font-semibold text-white shadow-xl transition-all duration-300 hover:scale-105 hover:from-green-600 hover:to-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2"
+                      aria-label="Start a discovery conversation with Kraftylytix"
+                    >
+                      {primaryCtaLabel}
+                    </a>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                        document.getElementById('contact-name')?.focus({ preventScroll: true })
+                      }}
+                      className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 px-5 py-3 font-semibold text-white shadow-xl transition-all duration-300 hover:scale-105 hover:from-green-600 hover:to-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2"
+                    >
+                      {primaryCtaLabel}
+                    </button>
+                  )}
                 </div>
 
 
@@ -135,7 +205,16 @@ const Contact = () => {
 
             <div className="relative">
               <div className="rounded-3xl border border-white/20 bg-white/80 p-8 shadow-2xl backdrop-blur-xl">
-                <h3 className="mb-8 text-2xl font-bold text-gray-900">Tell us what needs to work better</h3>
+                <h3 className="mb-3 text-2xl font-bold text-gray-900">Tell us what needs to work better</h3>
+
+                {isServicePreselected ? (
+                  <p className="mb-8 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-gray-700">
+                    Enquiry set to <span className="font-semibold">{serviceLabel(formData.service)}</span>. You can
+                    change this below.
+                  </p>
+                ) : (
+                  <div className="mb-8" />
+                )}
 
                 {status.success && (
                   <div className="mb-6 flex items-center space-x-3 rounded-xl border border-green-200 bg-green-50 p-4">
@@ -151,11 +230,14 @@ const Contact = () => {
                   </div>
                 )}
 
-                <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+                <form id="contact-form" ref={formRef} onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid gap-6 md:grid-cols-2">
                     <div>
-                      <label className="mb-3 block text-sm font-semibold text-gray-700">Full Name *</label>
+                      <label htmlFor="contact-name" className="mb-3 block text-sm font-semibold text-gray-700">
+                        Full Name *
+                      </label>
                       <input
+                        id="contact-name"
                         type="text"
                         required
                         name="user_name"
@@ -166,8 +248,28 @@ const Contact = () => {
                       />
                     </div>
                     <div>
-                      <label className="mb-3 block text-sm font-semibold text-gray-700">Work Email *</label>
+                      <label htmlFor="contact-business" className="mb-3 block text-sm font-semibold text-gray-700">
+                        Business Name
+                      </label>
                       <input
+                        id="contact-business"
+                        type="text"
+                        name="business_name"
+                        value={formData.business}
+                        onChange={(e) => setFormData({ ...formData, business: e.target.value })}
+                        className="w-full rounded-xl border-2 border-gray-200 bg-gray-50 px-4 py-4 text-gray-900 placeholder-gray-500 transition-all duration-300 focus:border-blue-500 focus:bg-white focus:outline-none"
+                        placeholder="Your business"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid gap-6 md:grid-cols-2">
+                    <div>
+                      <label htmlFor="contact-email" className="mb-3 block text-sm font-semibold text-gray-700">
+                        Work Email *
+                      </label>
+                      <input
+                        id="contact-email"
                         type="email"
                         required
                         name="user_email"
@@ -177,20 +279,67 @@ const Contact = () => {
                         placeholder="you@company.com"
                       />
                     </div>
+                    <div>
+                      <label htmlFor="contact-service" className="mb-3 block text-sm font-semibold text-gray-700">
+                        Service of Interest
+                      </label>
+                      <select
+                        id="contact-service"
+                        name="service_interest"
+                        value={formData.service}
+                        onChange={(e) => setFormData({ ...formData, service: e.target.value })}
+                        className="w-full rounded-xl border-2 border-gray-200 bg-gray-50 px-4 py-4 text-gray-900 transition-all duration-300 focus:border-blue-500 focus:bg-white focus:outline-none"
+                      >
+                        {serviceOptions.map(({ id, name }) => (
+                          <option key={id} value={id}>
+                            {name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
 
                   <div>
-                    <label className="mb-3 block text-sm font-semibold text-gray-700">Project Brief *</label>
+                    <label htmlFor="contact-message" className="mb-3 block text-sm font-semibold text-gray-700">
+                      About the application or process *
+                    </label>
                     <textarea
+                      id="contact-message"
                       required
-                      name="message"
+                      name="enquiry_details"
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       rows={6}
                       className="w-full resize-none rounded-xl border-2 border-gray-200 bg-gray-50 px-4 py-4 text-gray-900 placeholder-gray-500 transition-all duration-300 focus:border-blue-500 focus:bg-white focus:outline-none"
-                      placeholder="Tell us about the process, system, or workflow problem you want to solve. Include any useful context around timing, users, or current tools."
+                      placeholder="Describe the app, automation, or process that needs attention, who uses it, and what is going wrong. Please do not include passwords, tenant credentials, or sensitive business data."
                     />
+                    <p className="mt-2 text-sm text-gray-500">
+                      Please do not send passwords, tenant credentials, or sensitive business data through this form.
+                    </p>
                   </div>
+
+                  <fieldset>
+                    <legend className="mb-3 block text-sm font-semibold text-gray-700">
+                      Preferred contact method (optional)
+                    </legend>
+                    <div className="flex flex-wrap gap-4">
+                      {contactMethods.map((method) => (
+                        <label key={method} className="flex items-center gap-2 text-gray-700">
+                          <input
+                            type="radio"
+                            name="preferred_contact"
+                            value={method}
+                            checked={formData.preferredContact === method}
+                            onChange={() => setFormData({ ...formData, preferredContact: method })}
+                            className="h-4 w-4 accent-blue-600"
+                          />
+                          {method}
+                        </label>
+                      ))}
+                    </div>
+                  </fieldset>
+
+                  <input type="hidden" name="message" value={composedMessage} />
 
                   <button
                     type="submit"

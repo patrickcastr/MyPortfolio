@@ -10,10 +10,26 @@ import {
   processSteps,
   services,
 } from '../content/siteContent'
+import {
+  healthCheckCtaLabel,
+  powerOpsIntro,
+  powerPlatformRoute,
+  pricingDisclaimer,
+} from '../content/powerPlatformContent'
+import PowerOpsServiceCards from './powerops/PowerOpsServiceCards'
+import ServiceJourney from './powerops/ServiceJourney'
+import { usePageMetadata } from '../lib/usePageMetadata'
 
 const Homepage = () => {
   const location = useLocation()
   const navigate = useNavigate()
+
+  usePageMetadata({
+    title: 'Kraftylytix | Business Systems, Automation and Power Platform Support',
+    description:
+      'Kraftylytix helps New Zealand businesses replace manual processes, rescue unreliable Power Platform solutions, and build practical systems that support real operations.',
+    path: '/',
+  })
 
   const scrollToSection = (sectionId: string) => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -56,26 +72,26 @@ const Homepage = () => {
                 </span>
               </h1>
               <h2 className="mx-auto mb-6 max-w-4xl text-3xl font-bold leading-tight text-gray-800 md:text-5xl">
-                Business Systems • Automation • Custom Platforms
+                Practical business systems, automation and Power Platform support
               </h2>
 
               <p className="mx-auto mb-8 max-w-3xl text-lg leading-relaxed text-gray-600 md:text-2xl">
-                We help businesses replace spreadsheets, manual processes, and disconnected systems with custom apps,
-                automation, and integrated platforms.
+                Kraftylytix helps businesses replace manual processes, rescue unreliable Power Platform solutions, and
+                build practical systems that support real operations.
               </p>
 
               <div className="mb-4 flex flex-col items-center justify-center gap-4 sm:flex-row">
                 <button
-                  onClick={() => navigate('/contact')}
+                  onClick={() => navigate('/contact?service=health-check')}
                   className="group inline-flex items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-blue-600 px-8 py-4 text-base font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-blue-600 hover:to-blue-700 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-white/10"
                 >
-                  {primaryCtaLabel}
+                  {healthCheckCtaLabel}
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                 </button>
 
                 <button
                   onClick={() => scrollToSection('services')}
-                  className="inline-flex items-center justify-center rounded-full border border-blue-200 bg-white/60 px-8 py-4 text-base font-semibold text-blue-700 shadow-md transition-all duration-300 hover:scale-105 hover:bg-white/80"
+                  className="inline-flex items-center justify-center rounded-full border border-blue-200 bg-white/60 px-8 py-4 text-base font-semibold text-blue-700 shadow-md transition-all duration-300 hover:scale-105 hover:bg-white/80 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2"
                 >
                   Explore Services
                 </button>
@@ -99,6 +115,41 @@ const Homepage = () => {
                   {item}
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="power-platform" aria-labelledby="power-platform-heading" className="scroll-mt-32 py-12 md:py-16">
+          <div className="mb-10 text-center">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-blue-700">PowerOps</p>
+            <h2 id="power-platform-heading" className="mb-4 text-3xl font-bold text-gray-900 md:text-5xl">
+              Power Platform services that solve real operational problems
+            </h2>
+            <p className="mx-auto max-w-3xl text-lg leading-relaxed text-gray-600">{powerOpsIntro}</p>
+          </div>
+
+          <PowerOpsServiceCards />
+
+          <p className="mt-8 text-center text-sm text-gray-500">{pricingDisclaimer}</p>
+
+          <div className="mt-12">
+            <div className="mb-8 text-center">
+              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-blue-700">
+                Diagnose → Rescue → Support
+              </p>
+              <h3 className="text-2xl font-bold text-gray-900 md:text-3xl">How the service journey works</h3>
+            </div>
+
+            <ServiceJourney headingLevel="h4" />
+
+            <div className="mt-8 text-center">
+              <button
+                onClick={() => navigate(powerPlatformRoute)}
+                className="group inline-flex items-center justify-center rounded-full border border-blue-200 bg-white/60 px-8 py-4 text-base font-semibold text-blue-700 shadow-md transition-all duration-300 hover:scale-105 hover:bg-white/80 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2"
+              >
+                See full Power Platform services
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+              </button>
             </div>
           </div>
         </section>

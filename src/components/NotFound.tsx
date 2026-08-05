@@ -1,8 +1,14 @@
 import { ArrowRight, Home, MessageCircle } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { primaryCtaLabel } from '../content/siteContent'
+import { usePageMetadata } from '../lib/usePageMetadata'
 
 const NotFound = () => {
+  usePageMetadata({
+    title: 'Page not found | Kraftylytix',
+    description: 'The page you were trying to reach is not available on the Kraftylytix website.',
+  })
+
   return (
     <div className="flex min-h-screen items-center justify-center px-4 py-20">
       <div className="mx-auto max-w-3xl rounded-[2rem] border border-white/40 bg-white/30 p-10 text-center shadow-2xl backdrop-blur-md">
