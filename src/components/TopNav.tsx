@@ -1,45 +1,33 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { powerPlatformRoute } from '../content/powerPlatformContent'
+import { fabricRoute, integrationRoute } from '../content/capabilityContent'
 
 const TopNav = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const activeSection = new URLSearchParams(location.search).get('section')
-
-  const scrollToSection = (sectionId: string) => {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
-
-  const navigateToSection = (pathname: string, sectionId: string) => {
-    if (location.pathname === pathname) {
-      scrollToSection(sectionId)
-      return
-    }
-
-    navigate(`${pathname}?section=${sectionId}`)
-  }
-
+  // The three capability areas lead the navigation; Solutions still covers industries and
+  // solution categories, and the homepage services section is reachable from the hero.
   const navItems = [
-    {
-      label: 'Services',
-      onClick: () => navigateToSection('/', 'services'),
-      isActive: location.pathname === '/' && (!activeSection || activeSection === 'services'),
-    },
     {
       label: 'Power Platform',
       onClick: () => navigate(powerPlatformRoute),
       isActive: location.pathname === powerPlatformRoute,
     },
     {
-      label: 'Industries',
-      onClick: () => navigateToSection('/solutions', 'industries'),
-      isActive: location.pathname === '/solutions' && activeSection === 'industries',
+      label: 'Data & Fabric',
+      onClick: () => navigate(fabricRoute),
+      isActive: location.pathname === fabricRoute,
+    },
+    {
+      label: 'Integration',
+      onClick: () => navigate(integrationRoute),
+      isActive: location.pathname === integrationRoute,
     },
     {
       label: 'Solutions',
       onClick: () => navigate('/solutions'),
-      isActive: location.pathname === '/solutions' && activeSection !== 'industries',
+      isActive: location.pathname === '/solutions',
     },
     {
       label: 'About',

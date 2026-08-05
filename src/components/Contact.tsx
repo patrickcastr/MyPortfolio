@@ -3,23 +3,19 @@ import { AlertCircle, CheckCircle, MapPin, Send } from 'lucide-react'
 import { useLocation } from 'react-router-dom'
 import emailjs from '@emailjs/browser'
 import { primaryCtaLabel } from '../content/siteContent'
-import { powerOpsServiceOptions } from '../content/powerPlatformContent'
+import {
+  GENERAL_ENQUIRY,
+  enquiryGroups,
+  enquiryServiceLabel,
+  isKnownEnquiryService,
+} from '../content/enquiryServices'
 import { usePageMetadata } from '../lib/usePageMetadata'
-
-const GENERAL_ENQUIRY = 'general'
+import { scrollToElement, scrollToTop } from '../lib/scrollToElement'
 
 /** Optional external scheduler. When unset, the CTA sends people to the form instead of a dead link. */
 const schedulerUrl: string | undefined = (import.meta as any).env.VITE_SCHEDULER_URL
 
-const serviceOptions = [
-  ...powerOpsServiceOptions,
-  { id: GENERAL_ENQUIRY, name: 'General enquiry / not sure yet' },
-]
-
 const contactMethods = ['Email', 'Phone call', 'Either'] as const
-
-const serviceLabel = (id: string) =>
-  serviceOptions.find((option) => option.id === id)?.name ?? serviceOptions[serviceOptions.length - 1].name
 
 const Contact = () => {
   const location = useLocation()
@@ -29,6 +25,7 @@ const Contact = () => {
     business: '',
     email: '',
     service: GENERAL_ENQUIRY,
+    systems: '',
     message: '',
     preferredContact: 'Email' as (typeof contactMethods)[number],
   })
@@ -45,14 +42,12 @@ const Contact = () => {
   })
 
   // The app has no global scroll restoration, so land at the top of the page.
-  useEffect(() => {
-    window.scrollTo({ top: 0 })
-  }, [])
+  useEffect(scrollToTop, [])
 
   useEffect(() => {
     const requestedService = new URLSearchParams(location.search).get('service')
 
-    if (!requestedService || !serviceOptions.some((option) => option.id === requestedService)) {
+    if (!requestedService || !isKnownEnquiryService(requestedService)) {
       return
     }
 
@@ -63,8 +58,9 @@ const Contact = () => {
 
   // Composed into the single `message` variable the existing email templates already use.
   const composedMessage = [
-    `Service of interest: ${serviceLabel(formData.service)}`,
+    `Service of interest: ${enquiryServiceLabel(formData.service)}`,
     `Business name: ${formData.business.trim() || 'Not provided'}`,
+    `Current systems or data sources: ${formData.systems.trim() || 'Not provided'}`,
     `Preferred contact method: ${formData.preferredContact}`,
     '',
     formData.message,
@@ -96,6 +92,7 @@ const Contact = () => {
         business: '',
         email: '',
         service: GENERAL_ENQUIRY,
+        systems: '',
         message: '',
         preferredContact: 'Email',
       })
@@ -169,7 +166,7 @@ const Contact = () => {
                     <button
                       type="button"
                       onClick={() => {
-                        document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                        scrollToElement('contact-form')
                         document.getElementById('contact-name')?.focus({ preventScroll: true })
                       }}
                       className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 px-5 py-3 font-semibold text-white shadow-xl transition-all duration-300 hover:scale-105 hover:from-green-600 hover:to-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2"
@@ -209,7 +206,7 @@ const Contact = () => {
 
                 {isServicePreselected ? (
                   <p className="mb-8 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-gray-700">
-                    Enquiry set to <span className="font-semibold">{serviceLabel(formData.service)}</span>. You can
+                    Enquiry set to <span className="font-semibold">{enquiryServiceLabel(formData.service)}</span>. You can
                     change this below.
                   </p>
                 ) : (
@@ -290,13 +287,32 @@ const Contact = () => {
                         onChange={(e) => setFormData({ ...formData, service: e.target.value })}
                         className="w-full rounded-xl border-2 border-gray-200 bg-gray-50 px-4 py-4 text-gray-900 transition-all duration-300 focus:border-blue-500 focus:bg-white focus:outline-none"
                       >
-                        {serviceOptions.map(({ id, name }) => (
-                          <option key={id} value={id}>
-                            {name}
-                          </option>
+                        {enquiryGroups.map(({ label, options }) => (
+                          <optgroup key={label} label={label}>
+                            {options.map(({ id, name }) => (
+                              <option key={id} value={id}>
+                                {name}
+                              </option>
+                            ))}
+                          </optgroup>
                         ))}
                       </select>
                     </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="contact-systems" className="mb-3 block text-sm font-semibold text-gray-700">
+                      Current systems or data sources
+                    </label>
+                    <input
+                      id="contact-systems"
+                      type="text"
+                      name="current_systems"
+                      value={formData.systems}
+                      onChange={(e) => setFormData({ ...formData, systems: e.target.value })}
+                      className="w-full rounded-xl border-2 border-gray-200 bg-gray-50 px-4 py-4 text-gray-900 placeholder-gray-500 transition-all duration-300 focus:border-blue-500 focus:bg-white focus:outline-none"
+                      placeholder="e.g. Microsoft 365, SharePoint, Xero, a SQL database, spreadsheets"
+                    />
                   </div>
 
                   <div>
@@ -314,7 +330,8 @@ const Contact = () => {
                       placeholder="Describe the app, automation, or process that needs attention, who uses it, and what is going wrong. Please do not include passwords, tenant credentials, or sensitive business data."
                     />
                     <p className="mt-2 text-sm text-gray-500">
-                      Please do not send passwords, tenant credentials, or sensitive business data through this form.
+                      Please do not send passwords, API keys, tenant credentials, production data, confidential
+                      documents or sensitive personal information through this form.
                     </p>
                   </div>
 

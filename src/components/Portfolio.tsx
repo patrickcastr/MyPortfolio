@@ -2,8 +2,10 @@ import { ArrowRight } from 'lucide-react'
 import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { industries, primaryCtaLabel, solutionCards } from '../content/siteContent'
-import { powerPlatformRoute } from '../content/powerPlatformContent'
+import { positioningStatement } from '../content/capabilityContent'
+import CapabilityOverview from './capabilities/CapabilityOverview'
 import { usePageMetadata } from '../lib/usePageMetadata'
+import { scrollToElement } from '../lib/scrollToElement'
 
 const Portfolio = () => {
   const location = useLocation()
@@ -23,9 +25,7 @@ const Portfolio = () => {
       return
     }
 
-    const timeoutId = window.setTimeout(() => {
-      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }, 50)
+    const timeoutId = window.setTimeout(() => scrollToElement(sectionId), 50)
 
     return () => window.clearTimeout(timeoutId)
   }, [location.search])
@@ -113,27 +113,16 @@ const Portfolio = () => {
           </div>
         </section>
 
-        <section className="pb-4">
-          <div className="rounded-[2rem] border border-white/40 bg-white/30 p-8 shadow-xl backdrop-blur-md md:flex md:items-center md:justify-between md:gap-8">
-            <div className="mb-6 md:mb-0">
-              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-blue-700">Power Platform</p>
-              <h2 className="mb-3 text-2xl font-bold text-gray-800 md:text-3xl">
-                Already running Power Apps, Power Automate or SharePoint?
-              </h2>
-              <p className="max-w-2xl leading-relaxed text-gray-600">
-                Kraftylytix offers three fixed-scope Power Platform services: a Health Check to diagnose, an Automation
-                Rescue Sprint to repair, and Monthly PowerOps Support to keep things reliable.
-              </p>
-            </div>
-
-            <button
-              onClick={() => navigate(powerPlatformRoute)}
-              className="group inline-flex flex-shrink-0 items-center rounded-full bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2"
-            >
-              View Power Platform services
-              <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-            </button>
+        <section id="capabilities" aria-labelledby="solutions-capabilities-heading" className="scroll-mt-32 pb-4">
+          <div className="mb-10 text-center">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-blue-700">Capability areas</p>
+            <h2 id="solutions-capabilities-heading" className="mb-4 text-3xl font-bold text-gray-900 md:text-5xl">
+              Applications, data and the connections between them
+            </h2>
+            <p className="mx-auto max-w-3xl text-lg leading-relaxed text-gray-600">{positioningStatement}</p>
           </div>
+
+          <CapabilityOverview />
         </section>
 
         <div className="mt-16 rounded-3xl bg-gradient-to-r from-blue-600 to-blue-700 p-8 text-center text-white shadow-2xl md:p-10">

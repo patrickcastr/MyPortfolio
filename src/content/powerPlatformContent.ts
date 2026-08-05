@@ -109,9 +109,6 @@ export const powerOpsServices: PowerOpsService[] = [
   },
 ]
 
-/** Labels used by the contact form's "service of interest" field. */
-export const powerOpsServiceOptions = powerOpsServices.map(({ id, name }) => ({ id, name }))
-
 export const journeySteps: JourneyStep[] = [
   {
     step: 'Diagnose',

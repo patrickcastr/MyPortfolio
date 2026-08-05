@@ -1,5 +1,5 @@
-import { ArrowRight, CheckCircle2 } from 'lucide-react'
-import { useEffect } from 'react'
+import { ArrowRight, CheckCircle2, ChevronRight } from 'lucide-react'
+import { Fragment, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import {
   capabilityStrip,
@@ -16,24 +16,23 @@ import {
   powerPlatformRoute,
   pricingDisclaimer,
 } from '../content/powerPlatformContent'
+import { lifecycleStages, positioningStatement } from '../content/capabilityContent'
 import PowerOpsServiceCards from './powerops/PowerOpsServiceCards'
 import ServiceJourney from './powerops/ServiceJourney'
+import CapabilityOverview from './capabilities/CapabilityOverview'
 import { usePageMetadata } from '../lib/usePageMetadata'
+import { scrollToElement } from '../lib/scrollToElement'
 
 const Homepage = () => {
   const location = useLocation()
   const navigate = useNavigate()
 
   usePageMetadata({
-    title: 'Kraftylytix | Business Systems, Automation and Power Platform Support',
+    title: 'Kraftylytix | Power Platform, Microsoft Fabric and Systems Integration',
     description:
-      'Kraftylytix helps New Zealand businesses replace manual processes, rescue unreliable Power Platform solutions, and build practical systems that support real operations.',
+      'Kraftylytix helps New Zealand businesses replace manual processes, rescue unreliable Power Platform solutions, connect their systems and turn operational data into trusted reporting with Microsoft Fabric.',
     path: '/',
   })
-
-  const scrollToSection = (sectionId: string) => {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
 
   useEffect(() => {
     const sectionId = new URLSearchParams(location.search).get('section')
@@ -42,9 +41,7 @@ const Homepage = () => {
       return
     }
 
-    const timeoutId = window.setTimeout(() => {
-      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }, 50)
+    const timeoutId = window.setTimeout(() => scrollToElement(sectionId), 50)
 
     return () => window.clearTimeout(timeoutId)
   }, [location.search])
@@ -90,7 +87,7 @@ const Homepage = () => {
                 </button>
 
                 <button
-                  onClick={() => scrollToSection('services')}
+                  onClick={() => scrollToElement('services')}
                   className="inline-flex items-center justify-center rounded-full border border-blue-200 bg-white/60 px-8 py-4 text-base font-semibold text-blue-700 shadow-md transition-all duration-300 hover:scale-105 hover:bg-white/80 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2"
                 >
                   Explore Services
@@ -116,6 +113,38 @@ const Homepage = () => {
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+
+        <section id="capabilities" aria-labelledby="capabilities-heading" className="scroll-mt-32 py-12 md:py-16">
+          <div className="mb-10 text-center">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-blue-700">Capabilities</p>
+            <h2 id="capabilities-heading" className="mb-4 text-3xl font-bold text-gray-900 md:text-5xl">
+              Three connected capability areas
+            </h2>
+            <p className="mx-auto max-w-3xl text-lg leading-relaxed text-gray-600">{positioningStatement}</p>
+          </div>
+
+          <CapabilityOverview />
+
+          <div className="mt-10 rounded-[2rem] border border-white/40 bg-white/30 p-6 shadow-xl backdrop-blur-md md:p-8">
+            <p className="mb-5 text-center text-sm font-semibold uppercase tracking-[0.25em] text-blue-700">
+              The operational information lifecycle
+            </p>
+            <ol className="flex list-none flex-wrap items-center justify-center gap-x-2 gap-y-3">
+              {lifecycleStages.map((stage, index) => (
+                <Fragment key={stage}>
+                  {index > 0 ? (
+                    <li aria-hidden="true" className="text-blue-400">
+                      <ChevronRight className="h-4 w-4" />
+                    </li>
+                  ) : null}
+                  <li className="rounded-full border border-blue-100 bg-white/75 px-4 py-2 text-sm font-medium text-blue-700 shadow-sm">
+                    {stage}
+                  </li>
+                </Fragment>
+              ))}
+            </ol>
           </div>
         </section>
 

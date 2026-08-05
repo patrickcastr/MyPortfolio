@@ -36,6 +36,7 @@ export const primaryCtaLabel = 'Start a Discovery Conversation'
 
 export const capabilityStrip = [
   'Power Platform',
+  'Microsoft Fabric',
   'Internal Tools',
   'Workflow Automation',
   'Systems Integration',

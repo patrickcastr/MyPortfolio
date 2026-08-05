@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import PowerOpsServiceCards from './powerops/PowerOpsServiceCards'
 import ServiceJourney from './powerops/ServiceJourney'
 import { usePageMetadata } from '../lib/usePageMetadata'
+import { scrollToElement, scrollToTop } from '../lib/scrollToElement'
+import { fabricRoute, integrationRoute } from '../content/capabilityContent'
 import {
   faqs,
   healthCheckCtaLabel,
@@ -51,9 +53,7 @@ const PowerPlatformServices = () => {
   })
 
   // The app has no global scroll restoration, so land at the top of the page.
-  useEffect(() => {
-    window.scrollTo({ top: 0 })
-  }, [])
+  useEffect(scrollToTop, [])
 
   return (
     <div className="relative overflow-hidden px-4 pb-20 pt-10">
@@ -86,11 +86,7 @@ const PowerPlatformServices = () => {
               </Link>
               <button
                 type="button"
-                onClick={() =>
-                  document
-                    .getElementById('power-platform-faqs')
-                    ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-                }
+                onClick={() => scrollToElement('power-platform-faqs')}
                 className="inline-flex items-center justify-center rounded-full border border-blue-200 bg-white/60 px-8 py-4 text-base font-semibold text-blue-700 shadow-md transition-all duration-300 hover:bg-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2"
               >
                 Read the FAQs
@@ -211,6 +207,40 @@ const PowerPlatformServices = () => {
                 <p className="px-6 pb-6 leading-relaxed text-gray-600">{answer}</p>
               </details>
             ))}
+          </div>
+        </section>
+
+        <section aria-labelledby="powerops-related-heading" className="py-12 md:py-16">
+          <div className="rounded-[2rem] border border-white/40 bg-white/30 p-8 shadow-xl backdrop-blur-md md:p-10">
+            <h2 id="powerops-related-heading" className="mb-4 text-2xl font-bold text-gray-900 md:text-3xl">
+              Related capabilities
+            </h2>
+            <p className="mb-6 leading-relaxed text-gray-600">
+              If the underlying problem turns out to be reporting or a gap between systems, these are the adjacent
+              capability areas.
+            </p>
+            <div className="flex flex-col gap-4 sm:flex-row">
+              <Link
+                to={fabricRoute}
+                className="group inline-flex items-center justify-center rounded-full border border-blue-200 bg-white/60 px-6 py-3 font-semibold text-blue-700 shadow-md transition-all duration-300 hover:bg-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2"
+              >
+                Data &amp; Microsoft Fabric
+                <ArrowRight
+                  className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1"
+                  aria-hidden="true"
+                />
+              </Link>
+              <Link
+                to={integrationRoute}
+                className="group inline-flex items-center justify-center rounded-full border border-blue-200 bg-white/60 px-6 py-3 font-semibold text-blue-700 shadow-md transition-all duration-300 hover:bg-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2"
+              >
+                Integration &amp; automation
+                <ArrowRight
+                  className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1"
+                  aria-hidden="true"
+                />
+              </Link>
+            </div>
           </div>
         </section>
 
