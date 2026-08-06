@@ -1,0 +1,4 @@
+{
+    "codeQL.githubDatabase.update": "never",
+    "sarif-viewer.connectToGithubCodeScanning": "off"
+}

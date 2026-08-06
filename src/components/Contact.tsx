@@ -11,9 +11,35 @@ import {
 } from '../content/enquiryServices'
 import { usePageMetadata } from '../lib/usePageMetadata'
 import { scrollToElement, scrollToTop } from '../lib/scrollToElement'
+import { validateEmail } from '../lib/validateEmail'
+import { describeSendFailure } from '../lib/describeSendFailure'
 
 /** Optional external scheduler. When unset, the CTA sends people to the form instead of a dead link. */
 const schedulerUrl: string | undefined = (import.meta as any).env.VITE_SCHEDULER_URL
+
+/**
+ * Address offered when delivery fails, so "email Kraftylytix directly" is an
+ * actual link rather than a dead end. Defaulted rather than env-only: a build
+ * that forgot the variable would otherwise drop the fallback silently.
+ *
+ * Public contact details only — never a credential, since every VITE_* value is
+ * inlined into the browser bundle in plain text.
+ */
+const fallbackEmail: string =
+  (import.meta as any).env.VITE_CONTACT_FALLBACK_EMAIL ?? 'psychopatricklove@gmail.com'
+
+/**
+ * EmailJS identifiers. The public key is publishable by design — it only
+ * authorises sends from allow-listed origins and carries no account access.
+ *
+ * rc1xvpk notifies Kraftylytix; vuafvm1 auto-replies to the visitor. The send
+ * order matters: the notification must land before the confirmation, so a
+ * half-delivered submission can still be reported accurately.
+ */
+const EMAILJS_SERVICE_ID = 'service_k2h30qp'
+const EMAILJS_NOTIFICATION_TEMPLATE_ID = 'template_rc1xvpk'
+const EMAILJS_CONFIRMATION_TEMPLATE_ID = 'template_vuafvm1'
+const EMAILJS_PUBLIC_KEY = '0r6u1TEJ2UhCcEO2h'
 
 const contactMethods = ['Email', 'Phone call', 'Either'] as const
 
@@ -31,8 +57,16 @@ const Contact = () => {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [status, setStatus] = useState({ success: false, error: false, message: '' })
+  const [emailError, setEmailError] = useState<string | null>(null)
 
-  const formRef = useRef(null)
+  const formRef = useRef<HTMLFormElement>(null)
+
+  /**
+   * Duplicate-submit guard. `isSubmitting` cannot do this job on its own:
+   * React batches state updates, so two submits dispatched in the same tick
+   * both read the stale `false` and fire two sends.
+   */
+  const submitLockRef = useRef(false)
 
   usePageMetadata({
     title: 'Contact Kraftylytix | Business Systems and Power Platform Support',
@@ -68,24 +102,46 @@ const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (submitLockRef.current) {
+      return
+    }
+
+    // `<input type="email">` accepts addresses the mail provider will refuse
+    // (`test@cas.c` among them), so check before spending a send on it.
+    const emailProblem = validateEmail(formData.email)
+
+    if (emailProblem) {
+      setEmailError(emailProblem)
+      setStatus({ success: false, error: false, message: '' })
+      document.getElementById('contact-email')?.focus()
+      return
+    }
+
+    setEmailError(null)
+    submitLockRef.current = true
     setIsSubmitting(true)
 
+    // Tracks how far we got, so a half-delivered submission does not tell the
+    // visitor to send everything again.
+    let notificationSent = false
+
     try {
-      const result = await emailjs.sendForm(
-        'service_k2h30qp',
-        'template_rc1xvpk',
+      await emailjs.sendForm(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_NOTIFICATION_TEMPLATE_ID,
         formRef.current!,
-        '0r6u1TEJ2UhCcEO2h'
+        EMAILJS_PUBLIC_KEY
       )
+
+      notificationSent = true
 
       await emailjs.sendForm(
-        'service_k2h30qp',
-        'template_vuafvm1',
+        EMAILJS_SERVICE_ID,
+        EMAILJS_CONFIRMATION_TEMPLATE_ID,
         formRef.current!,
-        '0r6u1TEJ2UhCcEO2h'
+        EMAILJS_PUBLIC_KEY
       )
-
-      console.log('Email sent successfully:', result.text)
 
       setFormData({
         name: '',
@@ -106,14 +162,29 @@ const Contact = () => {
       setTimeout(() => {
         setStatus({ success: false, error: false, message: '' })
       }, 5000)
-    } catch (error: any) {
+    } catch (error) {
       console.error('Failed to send email:', error)
+
+      const failure = describeSendFailure(error)
+
+      // A provider-level rejection of the address belongs on the field, not in
+      // a banner that reads like the site is broken.
+      if (failure.field === 'email') {
+        setEmailError(failure.message)
+        setStatus({ success: false, error: false, message: '' })
+        document.getElementById('contact-email')?.focus()
+        return
+      }
+
       setStatus({
         success: false,
         error: true,
-        message: 'We could not send your message. Please try again or email Kraftylytix directly.',
+        message: notificationSent
+          ? 'Your enquiry was sent, but the confirmation email to you could not be delivered. There is no need to submit it again.'
+          : failure.message,
       })
     } finally {
+      submitLockRef.current = false
       setIsSubmitting(false)
     }
   }
@@ -221,9 +292,18 @@ const Contact = () => {
                 )}
 
                 {status.error && (
-                  <div className="mb-6 flex items-center space-x-3 rounded-xl border border-red-200 bg-red-50 p-4">
-                    <AlertCircle className="h-5 w-5 text-red-600" />
-                    <p className="font-medium text-red-800">{status.message}</p>
+                  <div role="alert" className="mb-6 flex items-start space-x-3 rounded-xl border border-red-200 bg-red-50 p-4">
+                    <AlertCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-red-600" />
+                    <div>
+                      <p className="font-medium text-red-800">{status.message}</p>
+                      {fallbackEmail && (
+                        <p className="mt-1 text-sm text-red-700">
+                          <a href={`mailto:${fallbackEmail}`} className="font-semibold underline">
+                            {fallbackEmail}
+                          </a>
+                        </p>
+                      )}
+                    </div>
                   </div>
                 )}
 
@@ -271,10 +351,22 @@ const Contact = () => {
                         required
                         name="user_email"
                         value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full rounded-xl border-2 border-gray-200 bg-gray-50 px-4 py-4 text-gray-900 placeholder-gray-500 transition-all duration-300 focus:border-blue-500 focus:bg-white focus:outline-none"
+                        onChange={(e) => {
+                          setFormData({ ...formData, email: e.target.value })
+                          setEmailError(null)
+                        }}
+                        aria-invalid={emailError ? true : undefined}
+                        aria-describedby={emailError ? 'contact-email-error' : undefined}
+                        className={`w-full rounded-xl border-2 bg-gray-50 px-4 py-4 text-gray-900 placeholder-gray-500 transition-all duration-300 focus:bg-white focus:outline-none ${
+                          emailError ? 'border-red-400 focus:border-red-500' : 'border-gray-200 focus:border-blue-500'
+                        }`}
                         placeholder="you@company.com"
                       />
+                      {emailError && (
+                        <p id="contact-email-error" role="alert" className="mt-2 text-sm font-medium text-red-700">
+                          {emailError}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label htmlFor="contact-service" className="mb-3 block text-sm font-semibold text-gray-700">
